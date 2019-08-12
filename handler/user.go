@@ -11,9 +11,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+type UserRequest struct {
+	Name       string `json:"name"`
+	LanguageID uint   `json:"language_id"`
+}
+
 func (h *Handler) AddUser(c echo.Context) error {
-	user := new(model.User)
-	if err := c.Bind(user); err != nil {
+	req := new(UserRequest)
+	if err := c.Bind(req); err != nil {
 		problem := response.Problem{
 			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/users.go",
 			Title: "Invalid request",
@@ -21,6 +26,11 @@ func (h *Handler) AddUser(c echo.Context) error {
 		c.Response().Header().Set(echo.HeaderContentType, "application/problem+json")
 		c.Response().WriteHeader(http.StatusBadRequest)
 		return json.NewEncoder(c.Response()).Encode(problem)
+	}
+
+	user := &model.User{
+		Name:       req.Name,
+		LanguageID: req.LanguageID,
 	}
 
 	userRepo := database.NewUserRepository(h.DB)
