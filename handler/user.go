@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"echo-gorm-example/domain/model"
 	"echo-gorm-example/domain/model/response"
 	"echo-gorm-example/interface/database"
 	"echo-gorm-example/modules"
@@ -10,7 +11,31 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// TODO: AddUser
+func (h *Handler) AddUser(c echo.Context) error {
+	user := new(model.User)
+	if err := c.Bind(user); err != nil {
+		problem := response.Problem{
+			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/users.go",
+			Title: "Invalid request",
+		}
+		c.Response().Header().Set(echo.HeaderContentType, "application/problem+json")
+		c.Response().WriteHeader(http.StatusBadRequest)
+		return json.NewEncoder(c.Response()).Encode(problem)
+	}
+
+	userRepo := database.NewUserRepository(h.DB)
+	if err := userRepo.Add(user); err != nil {
+		problem := response.Problem{
+			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/users.go",
+			Title: "Failed to create",
+		}
+		c.Response().Header().Set(echo.HeaderContentType, "application/problem+json")
+		c.Response().WriteHeader(http.StatusBadRequest)
+		return json.NewEncoder(c.Response()).Encode(problem)
+	}
+
+	return c.NoContent(http.StatusCreated)
+}
 
 func (h *Handler) GetUser(c echo.Context) error {
 	id, err := modules.Atouint(c.Param("id"))

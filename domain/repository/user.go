@@ -5,7 +5,7 @@ import (
 )
 
 type UserRepository interface {
-	Add(model.User) error
+	Add(*model.User) error
 	FindByID(uint) (*model.User, error)
 	Last() (*model.User, error)
 	Update(*model.User) error
