@@ -38,6 +38,10 @@ func main() {
 
 	// Bind routes
 	e.GET("/", h.ShowIndexPage)
+	// TODO: POST /users AddUser
+	// TODO: GET /users/:id GetUser
+	// TODO: PUT /users/:id UpdateUser
+	// TODO: DELETE /users/:id DeleteUser
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
