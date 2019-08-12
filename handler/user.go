@@ -74,7 +74,47 @@ func (h *Handler) GetUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, user)
 }
 
-// TODO: UpdateUser
+func (h *Handler) UpdateUser(c echo.Context) error {
+	id, err := modules.Atouint(c.Param("id"))
+	if err != nil {
+		problem := response.Problem{
+			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/users.go",
+			Title: "Invalid ID",
+		}
+		c.Response().Header().Set(echo.HeaderContentType, "application/problem+json")
+		c.Response().WriteHeader(http.StatusBadRequest)
+		return json.NewEncoder(c.Response()).Encode(problem)
+	}
+
+	req := new(UserRequest)
+	if err := c.Bind(req); err != nil {
+		problem := response.Problem{
+			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/users.go",
+			Title: "Invalid request",
+		}
+		c.Response().Header().Set(echo.HeaderContentType, "application/problem+json")
+		c.Response().WriteHeader(http.StatusBadRequest)
+		return json.NewEncoder(c.Response()).Encode(problem)
+	}
+
+	user := &model.User{}
+	user.ID = id
+	user.Name = req.Name
+	user.LanguageID = req.LanguageID
+
+	userRepo := database.NewUserRepository(h.DB)
+	if err := userRepo.Update(user); err != nil {
+		problem := response.Problem{
+			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/users.go",
+			Title: "Failed to update",
+		}
+		c.Response().Header().Set(echo.HeaderContentType, "application/problem+json")
+		c.Response().WriteHeader(http.StatusBadRequest)
+		return json.NewEncoder(c.Response()).Encode(problem)
+	}
+
+	return c.NoContent(http.StatusCreated)
+}
 
 func (h *Handler) DeleteUser(c echo.Context) error {
 	id, err := modules.Atouint(c.Param("id"))

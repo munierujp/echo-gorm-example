@@ -40,7 +40,7 @@ func main() {
 	e.GET("/", h.ShowIndexPage)
 	e.POST("/users", h.AddUser)
 	e.GET("/users/:id", h.GetUser)
-	// TODO: PUT /users/:id UpdateUser
+	e.PUT("/users/:id", h.UpdateUser)
 	e.DELETE("/users/:id", h.DeleteUser)
 
 	// Start server
