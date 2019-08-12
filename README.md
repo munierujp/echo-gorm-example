@@ -3,6 +3,9 @@ Example of Echo + GORM
 
 ## Usage
 ```sh
+$ cd db
+$ docker-compose up -d
+$ cd ../
 $ go run server.go
 ```
 
