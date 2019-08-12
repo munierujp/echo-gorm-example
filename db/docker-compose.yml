@@ -1,0 +1,29 @@
+version: '3.2'
+services:
+  mysql:
+    container_name: docker-mysql-phpmyadmin-example-mysql
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - ./conf:/etc/mysql/conf.d
+      - ./logs:/var/log/mysql
+      - ./init:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: sample
+      MYSQL_USER:     user
+      MYSQL_PASSWORD: pass
+      TZ: Asia/Tokyo
+    ports:
+      - 3306:3306
+  phpmyadmin:
+    container_name: docker-mysql-phpmyadmin-example-phpmyadmin
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    environment:
+      PMA_USER: root
+      PMA_PASSWORD: rootpass
+    ports:
+      - 8080:80
+    links:
+      - mysql:db
