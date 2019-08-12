@@ -41,7 +41,7 @@ func main() {
 	// TODO: POST /users AddUser
 	e.GET("/users/:id", h.GetUser)
 	// TODO: PUT /users/:id UpdateUser
-	// TODO: DELETE /users/:id DeleteUser
+	e.DELETE("/users/:id", h.DeleteUser)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
