@@ -39,7 +39,7 @@ func main() {
 	// Bind routes
 	e.GET("/", h.ShowIndexPage)
 	// TODO: POST /users AddUser
-	// TODO: GET /users/:id GetUser
+	e.GET("/users/:id", h.GetUser)
 	// TODO: PUT /users/:id UpdateUser
 	// TODO: DELETE /users/:id DeleteUser
 
