@@ -1,23 +1,44 @@
 package main
 
 import (
-	"net/http"
+	"echo-gorm-example/handler"
 
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+)
+
+const (
+	USER_NAME = "user"
+	PASSWORD  = "pass"
+	DATABASE  = "sample"
+	HOST      = "localhost"
+	PORT      = "3306"
+	CHARSET   = "utf8mb4"
+	COLLATION = "utf8mb4_bin"
 )
 
 func main() {
 	e := echo.New()
 
+	// Set middlewares
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	e.GET("/", index)
+	// Create database connection
+	db, err := gorm.Open("mysql", USER_NAME+":"+PASSWORD+"@tcp("+HOST+":"+PORT+")/"+DATABASE+"?charset="+CHARSET+"&collation="+COLLATION+"&parseTime=True&loc=Local")
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
 
+	// Initialize handler
+	h := &handler.Handler{DB: db}
+
+	// Bind routes
+	e.GET("/", h.ShowIndexPage)
+
+	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
-}
-
-func index(c echo.Context) error {
-	return c.String(http.StatusOK, "API is not implemented yet.")
 }
