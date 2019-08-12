@@ -113,7 +113,7 @@ func (h *Handler) UpdateUser(c echo.Context) error {
 		return json.NewEncoder(c.Response()).Encode(problem)
 	}
 
-	return c.NoContent(http.StatusCreated)
+	return c.NoContent(http.StatusNoContent)
 }
 
 func (h *Handler) DeleteUser(c echo.Context) error {
