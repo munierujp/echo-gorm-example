@@ -37,7 +37,6 @@ func main() {
 	h := &handler.Handler{DB: db}
 
 	// Bind routes
-	e.GET("/", h.ShowIndexPage)
 	e.POST("/users", h.AddUser)
 	e.GET("/users/:id", h.GetUser)
 	e.PUT("/users/:id", h.UpdateUser)
