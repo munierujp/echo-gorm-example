@@ -20,7 +20,7 @@ func (h *Handler) AddUser(c echo.Context) error {
 	req := new(UserRequest)
 	if err := c.Bind(req); err != nil {
 		problem := response.Problem{
-			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/users.go",
+			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/user.go",
 			Title: "Invalid request",
 		}
 		c.Response().Header().Set(echo.HeaderContentType, "application/problem+json")
@@ -36,7 +36,7 @@ func (h *Handler) AddUser(c echo.Context) error {
 	userRepo := database.NewUserRepository(h.DB)
 	if err := userRepo.Add(user); err != nil {
 		problem := response.Problem{
-			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/users.go",
+			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/user.go",
 			Title: "Failed to create",
 		}
 		c.Response().Header().Set(echo.HeaderContentType, "application/problem+json")
@@ -51,7 +51,7 @@ func (h *Handler) GetUser(c echo.Context) error {
 	id, err := modules.Atouint(c.Param("id"))
 	if err != nil {
 		problem := response.Problem{
-			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/users.go",
+			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/user.go",
 			Title: "Invalid ID",
 		}
 		c.Response().Header().Set(echo.HeaderContentType, "application/problem+json")
@@ -63,7 +63,7 @@ func (h *Handler) GetUser(c echo.Context) error {
 	user, err := userRepo.FindByID(id)
 	if err != nil {
 		problem := response.Problem{
-			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/users.go",
+			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/user.go",
 			Title: "Not found user",
 		}
 		c.Response().Header().Set(echo.HeaderContentType, "application/problem+json")
@@ -78,7 +78,7 @@ func (h *Handler) UpdateUser(c echo.Context) error {
 	id, err := modules.Atouint(c.Param("id"))
 	if err != nil {
 		problem := response.Problem{
-			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/users.go",
+			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/user.go",
 			Title: "Invalid ID",
 		}
 		c.Response().Header().Set(echo.HeaderContentType, "application/problem+json")
@@ -89,7 +89,7 @@ func (h *Handler) UpdateUser(c echo.Context) error {
 	req := new(UserRequest)
 	if err := c.Bind(req); err != nil {
 		problem := response.Problem{
-			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/users.go",
+			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/user.go",
 			Title: "Invalid request",
 		}
 		c.Response().Header().Set(echo.HeaderContentType, "application/problem+json")
@@ -105,7 +105,7 @@ func (h *Handler) UpdateUser(c echo.Context) error {
 	userRepo := database.NewUserRepository(h.DB)
 	if err := userRepo.Update(user); err != nil {
 		problem := response.Problem{
-			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/users.go",
+			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/user.go",
 			Title: "Failed to update",
 		}
 		c.Response().Header().Set(echo.HeaderContentType, "application/problem+json")
@@ -120,7 +120,7 @@ func (h *Handler) DeleteUser(c echo.Context) error {
 	id, err := modules.Atouint(c.Param("id"))
 	if err != nil {
 		problem := response.Problem{
-			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/users.go",
+			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/user.go",
 			Title: "Invalid ID",
 		}
 		c.Response().Header().Set(echo.HeaderContentType, "application/problem+json")
@@ -131,7 +131,7 @@ func (h *Handler) DeleteUser(c echo.Context) error {
 	userRepo := database.NewUserRepository(h.DB)
 	if err := userRepo.Delete(id); err != nil {
 		problem := response.Problem{
-			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/users.go",
+			Type:  "https://github.com/munierujp/echo-gorm-example/blob/master/handler/user.go",
 			Title: "Failed to delete",
 		}
 		c.Response().Header().Set(echo.HeaderContentType, "application/problem+json")
