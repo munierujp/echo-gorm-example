@@ -1,7 +1,7 @@
 version: '3.2'
 services:
   mysql:
-    container_name: docker-mysql-phpmyadmin-example-mysql
+    container_name: echo-gorm-example-mysql
     image: mysql:5.7
     restart: always
     volumes:
@@ -17,7 +17,7 @@ services:
     ports:
       - 3306:3306
   phpmyadmin:
-    container_name: docker-mysql-phpmyadmin-example-phpmyadmin
+    container_name: echo-gorm-example-phpmyadmin
     image: phpmyadmin/phpmyadmin:latest
     restart: always
     environment:
